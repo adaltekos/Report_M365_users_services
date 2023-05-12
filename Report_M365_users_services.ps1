@@ -1,33 +1,33 @@
 # Install required modules
-	#Install-Module SharePointPnPPowerShellOnline
-	#Install-Module Microsoft.Graph
-	#Install-Module ImportExcel
+# Install-Module SharePointPnPPowerShellOnline
+# Install-Module Microsoft.Graph
+# Install-Module ImportExcel
 
 # Set variables
-$filename 		= "" #Complete with filename (ex. Raport_M365_users_services.xlsx)
-$localPath 		= "" #Complete with local path (ex. C:\Raporty\)
-$siteUrl		= "" #Complete with Url site (ex. https://company.sharepoint.com/sites/it-dep)
-$onlinePath		= "" #Complete with path where file is on sharepoint (ex. Shared Documents/Global/)
-$tenant			= "" #Complete with tenant name (ex. company.onmicrosoft.com)
-$appId			= "" #Complete with ClientId (which is ID of application registered in Azure AD)
-$thumbprint		= "" #Complete with Thumbprint (which is certificate thumbprint)
+$filename      = "" #Complete with filename (ex. Raport_M365_users_services.xlsx)
+$localPath     = "" #Complete with local path (ex. C:\Raporty\)
+$siteUrl       = "" #Complete with Url site (ex. https://company.sharepoint.com/sites/it-dep)
+$onlinePath    = "" #Complete with path where file is on sharepoint (ex. Shared Documents/Global/)
+$tenant        = "" #Complete with tenant name (ex. company.onmicrosoft.com)
+$appId         = "" #Complete with ClientId (which is ID of application registered in Azure AD)
+$thumbprint    = "" #Complete with Thumbprint (which is certificate thumbprint)
 
 # Connect to SharePoint Online
 $pnpConnectParams  = @{
-    Url				=  $siteUrl
-    Tenant			=  $tenant
-    ClientId		=  $appId
-    Thumbprint		=  $thumbprint
+    Url            =  $siteUrl
+    Tenant         =  $tenant
+    ClientId       =  $appId
+    Thumbprint     =  $thumbprint
 }
 Connect-PnPOnline @pnpConnectParams
 
 # Download file from SharePoint Online to local path
 $getPnPFileParams = @{
-    Url				= ($onlinePath + $filename)
-    Path			= $localPath
-    Filename		= $filename
-    AsFile			= $true
-    Force			= $true
+    Url            = ($onlinePath + $filename)
+    Path           = $localPath
+    Filename       = $filename
+    AsFile         = $true
+    Force          = $true
 }
 Get-PnPFile @getPnPFileParams
 
@@ -35,11 +35,12 @@ Start-Sleep -s 3
 
 # Connect to Microsoft Graph API
 $graphParams  = @{
-    Tenant					= $tenant
-    AppId					= $appId
-    CertificateThumbprint	= $thumbprint
+    Tenant                   = $tenant
+    AppId                    = $appId
+    CertificateThumbprint    = $thumbprint
 }
 Connect-Graph @graphParams
+
 
 # List all users and their services in assigned licenses
 $users = Get-MgUser -All
